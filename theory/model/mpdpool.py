@@ -35,8 +35,11 @@ def threadsafe_function(fn):
 class NoMPDConnection(Exception):
     pass
 
+class MaxConenctions(Exception):
+    pass
+
 class MPDPool:
-    max_connections = 3
+    max_connections = 4
     max_overflow = 2
 
     in_use = {}

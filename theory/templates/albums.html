@@ -37,7 +37,9 @@
     <ul id="list">
         % for a in c.albums:
 			<%
-				album_utf8 = a.decode('utf-8')
+				album_utf8 = a
+				if type(a) == str:
+					album_utf8 = a.decode('utf-8')
 				if album_utf8 == c.album:
 					addclass = 'class=activerow'
 				else:
