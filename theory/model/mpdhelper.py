@@ -33,12 +33,7 @@ def unicodify(val):
     if type(val) == dict:
         new = dict()
         for elem in val:
-            if elem == 'album':
-                print val[elem] 
             val[elem] = unicodify(val[elem])
-            if elem == 'album':
-                print val[elem] 
-                print type(val[elem] )
         return val
     if type(val) == str:
         new = u''
