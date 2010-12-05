@@ -23,6 +23,36 @@ def wrap_error(fn):
 
     return new
 
+
+def unicodify(val):
+    if type(val) == list:
+        new = list()
+        for elem in val:
+            new.append(unicodify(elem))
+        return new
+    if type(val) == dict:
+        new = dict()
+        for elem in val:
+            if elem == 'album':
+                print val[elem] 
+            val[elem] = unicodify(val[elem])
+            if elem == 'album':
+                print val[elem] 
+                print type(val[elem] )
+        return val
+    if type(val) == str:
+        new = u''
+        try:
+            new = unicode(val, 'utf-8')
+        except UnicodeDecodeError:
+            try:
+                new = unicode(val, 'iso-8859-15')
+            except UnicodeDecodeError:
+                pass
+        return new
+    return val
+
+
 class mpdhelper(object):
     """ 
     most python-mpd functions are handed off to python-mpd.  this class overwrites some of them
@@ -211,7 +241,10 @@ class mpdhelper(object):
         log.debug('getattr: %s' % attr)
         if self.mpdc is not None:
             try:
-                return getattr(self.mpdc,attr)
+                func = getattr(self.mpdc,attr)
+                def ret_func(*args, **kwargs):
+                    return unicodify(func(*args, **kwargs))
+                return ret_func
             except socket.error, e:
                 if isinstance(e.args, tuple):
                     log.debug("errno is %d" % e[0])
