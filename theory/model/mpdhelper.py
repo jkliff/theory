@@ -48,6 +48,24 @@ def unicodify(val):
     return val
 
 
+def deunicodify(val):
+    if type(val) in [list, set,tuple]:
+        new = list()
+        for elem in val:
+            new.append(deunicodify(elem))
+        if type(val) == tuple:
+            return tuple(new)
+        return new
+    if type(val) == dict:
+        new = dict()
+        for elem in val:
+            val[elem] = deunicodify(val[elem])
+        return val
+    if type(val) == unicode:
+        return val.encode('utf-8')
+    return val
+
+
 class mpdhelper(object):
     """ 
     most python-mpd functions are handed off to python-mpd.  this class overwrites some of them
@@ -238,6 +256,8 @@ class mpdhelper(object):
             try:
                 func = getattr(self.mpdc,attr)
                 def ret_func(*args, **kwargs):
+                    args = deunicodify(args)
+                    kwargs = deunicodify(kwargs)
                     return unicodify(func(*args, **kwargs))
                 return ret_func
             except socket.error, e:
