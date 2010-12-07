@@ -265,14 +265,19 @@ class MainController(BaseController):
 
             search_string = q.lower()
 
+            log.debug(results)
             for r in results:
-                if 'artist' in r.keys() and search_string in r['artist'].lower():
+                if 'artist' in r and search_string in r['artist'].lower():
                     c.artists.add(r['artist'])
+                if 'artist' not in r:
+                    r['artist'] = u''
 
-                if 'album' in r.keys() and search_string in r['album'].lower():
+                if 'album' in r and search_string in r['album'].lower():
                     c.albums.add((r['artist'], r['album']))
+                if 'album' not in r:
+                    r['album'] = u''
 
-                if 'title' in r.keys() and search_string in r['title'].lower():
+                if 'title' in r and search_string in r['title'].lower():
                     c.tracks.add((r['artist'], r['album'], r['title'], r['file']))
 
         return render('/search.html')
