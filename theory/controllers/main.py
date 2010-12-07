@@ -265,7 +265,6 @@ class MainController(BaseController):
 
             search_string = q.lower()
 
-            log.debug(results)
             for r in results:
                 if 'artist' in r and search_string in r['artist'].lower():
                     c.artists.add(r['artist'])
