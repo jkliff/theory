@@ -685,7 +685,7 @@ function setSearchType(s) {
 }
 
 function performSearch() {
-   var q = escape($('#search input[name=q]').val()); 
+   var q = $('#search input[name=q]').val().replace(" ", "%20"); 
    var searchtype = $('#searchtype').val()
     $('#searchresults').load('/search?searchtype=' + searchtype + '&q=' + q,undefined,function(){
 						$('#searchresults').show('slide',{direction:'down'},1500);

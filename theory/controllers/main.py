@@ -262,7 +262,7 @@ class MainController(BaseController):
             c.albums = set()
             c.tracks = set()
 
-            search_string = q.lower()
+            search_string = request.GET.get('q').lower()
 
             for r in results:
                 if 'artist' in r and search_string in r['artist'].lower():
