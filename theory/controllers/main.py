@@ -100,9 +100,8 @@ class MainController(BaseController):
 
         c.tracks = self.m.tracks(c.artist, c.album)
 
-        print type(c.artist)
-        c.artist_safe = h.html.url_escape(unicode(c.artist, 'utf-8'))
-        c.album_safe = h.html.url_escape(unicode(c.album, 'utf-8'))
+        c.artist_safe = h.html.url_escape(c.artist, 'utf-8')
+        c.album_safe = h.html.url_escape(c.album, 'utf-8')
 
         return render('/tracks.html')
  
