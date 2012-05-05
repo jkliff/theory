@@ -76,8 +76,8 @@ def validate_custom(schema, **state_kwargs):
 
     if state_kwargs.get('variable_decode', False):
         params = formencode.variabledecode.variable_decode(pylons.request.params)
-        print pylons.request.params
-        print params
+        #print pylons.request.params
+        #print params
     else:
         params = pylons.request.params
     return schema.to_python(params, state)
