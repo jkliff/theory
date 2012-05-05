@@ -100,8 +100,8 @@ class MainController(BaseController):
 
         c.tracks = self.m.tracks(c.artist, c.album)
 
-        c.artist_safe = h.html.url_escape(c.artist)
-        c.album_safe = h.html.url_escape(c.album)
+        c.artist_safe = h.html.url_escape(c.artist, 'utf-8')
+        c.album_safe = h.html.url_escape(c.album, 'utf-8')
 
         return render('/tracks.html')
  
@@ -262,16 +262,20 @@ class MainController(BaseController):
             c.albums = set()
             c.tracks = set()
 
-            search_string = q.lower()
+            search_string = request.GET.get('q').lower()
 
             for r in results:
-                if 'artist' in r.keys() and search_string in r['artist'].lower():
+                if 'artist' in r and search_string in r['artist'].lower():
                     c.artists.add(r['artist'])
+                if 'artist' not in r:
+                    r['artist'] = u''
 
-                if 'album' in r.keys() and search_string in r['album'].lower():
+                if 'album' in r and search_string in r['album'].lower():
                     c.albums.add((r['artist'], r['album']))
+                if 'album' not in r:
+                    r['album'] = u''
 
-                if 'title' in r.keys() and search_string in r['title'].lower():
+                if 'title' in r and search_string in r['title'].lower():
                     c.tracks.add((r['artist'], r['album'], r['title'], r['file']))
 
         return render('/search.html')

@@ -24,7 +24,9 @@
 
         % for a in c.artists:
             <%
-				fixed_artist = a.decode('utf-8')
+				fixed_artist = a
+				if type(a) == str:
+				    fixed_artist = a.decode('utf-8')
 
 				try:
 					if a.startswith(('The ','THE ','the ')):
