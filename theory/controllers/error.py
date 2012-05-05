@@ -17,7 +17,7 @@ class ErrorController(BaseController):
 
     This behaviour can be altered by changing the parameters to the
     ErrorDocuments middleware in your config/middleware.py file.
-    
+
     """
     def document(self):
         """Render the error document"""

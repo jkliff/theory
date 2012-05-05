@@ -1,4 +1,4 @@
-import formencode 
+import formencode
 import pylons
 from pylons import app_globals as g
 
@@ -39,13 +39,13 @@ class StreamNameInUse(formencode.validators.FancyValidator):
 
 class StreamForm(formencode.Schema):
     allow_extra_fields = False
-    
+
     name = formencode.validators.String(not_empty=True,strip=True,messages={'empty':'please enter a name for this stream'})
     url = formencode.validators.URL(not_empty=True,require_tld=False,strip=True,check_exists=False,messages={'empty':'please enter a URL'})
     oldname = formencode.validators.String(not_empty=False)
 
     chained_validators = [StreamNameInUse()]
-                                                             
+
 
 class State(object):
     """Trivial class to be used as State objects to transport information to formencode validators"""

@@ -35,7 +35,7 @@ class PlaylistController(BaseController):
 
         try:
             self.m = g.p.connect()
-        except NoMPDConnection:            
+        except NoMPDConnection:
             return render('/null.html')
         status = self.m.status()
         c.playlistid = status['playlist']
@@ -46,7 +46,7 @@ class PlaylistController(BaseController):
         c.g = g
 
         return render('/playlist.html')
- 
+
 
     def save(self):
         """ commit a stored playlist to disk via MPD """

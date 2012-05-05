@@ -44,9 +44,9 @@ class AlbumArt:
 
     def album_fetch(self,artist,album):
         """
-        attempt to load an album's cover art from disk. 
+        attempt to load an album's cover art from disk.
         if it doesn't exist, make a request using Amazon's
-        Web Services 
+        Web Services
         """
 
         self.artist = artist
@@ -69,28 +69,28 @@ class AlbumArt:
         """ return all of the album covers for a particular artist """
 
         images = []
-        
+
         # get a list of all of the filenames associated with the selected artist
-        filenames = [filename for filename in os.listdir(self.disk_root) if filename.startswith("%s -" % artist)] 
+        filenames = [filename for filename in os.listdir(self.disk_root) if filename.startswith("%s -" % artist)]
 
         for i in filenames:
             album_name = i.split(' - ')[1][:-4]
 
-            # we include the name of the album in the list we're returning so 
-            # we can auto-link the img on the albums list page 
+            # we include the name of the album in the list we're returning so
+            # we can auto-link the img on the albums list page
             images.append({
                             'album'  :album_name,
                             'imgurl' :"%s/%s" % (self.www_root,i)
                          })
-                            
-        return images 
+
+        return images
 
     def log(self,msg):
         self.logger.info(msg)
 
     def amazon_fetch(self):
-        """ 
-        attempts to fetch album cover art from Amazon Web Services and 
+        """
+        attempts to fetch album cover art from Amazon Web Services and
         calls save_to_disk() to save the largest available image permanently
         to avoid subsequent lookups.  first tries to fetch the artist + album
         but falls back to artist search only if the album art isn't found
@@ -99,7 +99,7 @@ class AlbumArt:
         if g.tc.awskey == '':
             raise NoArtError
 
-      
+
         artist_safe = urllib2.quote(self.artist)
         album_safe = urllib2.quote(self.album)
 
@@ -145,7 +145,7 @@ class AlbumArt:
                 self.log('Fetching Amazon album image: %s' % real_url)
                 urlfile = urllib2.urlopen(real_url)
             except urllib2.URLError:
-                # there are probably other exceptions that need to be caught here.. 
+                # there are probably other exceptions that need to be caught here..
                 self.log('Error fetching Amazon XML')
                 raise NoArtError
 
@@ -199,6 +199,6 @@ class AlbumArt:
         for (path,dirs,files) in os.walk(self.disk_root):
             for file in files:
                 filename = os.path.join(path,file)
-                dir_size += os.path.getsize(filename)        
+                dir_size += os.path.getsize(filename)
 
         return dir_size

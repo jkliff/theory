@@ -31,7 +31,7 @@ def format_track_time(track):
     except KeyError:
         return '00:00'
 
-def format_filesize(bytes):        
+def format_filesize(bytes):
     kb = "%02.2fKB" % (bytes / 1024.0)
     return kb
 
@@ -60,7 +60,7 @@ def format_title(t,trackno=None):
         else:
             if 'title' in t:
                 t['formattedtrack'] = "%s" % t['title']
-    
+
     if not 'formattedtrack' in t:
         if trackno:
             t['formattedtrack'] = "%d." % trackno
@@ -73,6 +73,6 @@ def format_title_search(t):
     except KeyError,e:
         if 'title' in t:
             t['formattedtrack'] = "%s" % (t['title'])
-    
+
     if not 'formattedtrack' in t:
         t['formattedtrack'] = "%s" % t['file']

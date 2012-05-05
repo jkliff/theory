@@ -251,9 +251,9 @@ def to_ascii(x):
 if sys.version_info >= (2, 5):
     def decode_slice(slc):
         """decode a slice object as sent to __getitem__.
-    
+
         takes into account the 2.5 __index__() method, basically.
-    
+
         """
         ret = []
         for x in slc.start, slc.stop, slc.step:
@@ -264,8 +264,8 @@ if sys.version_info >= (2, 5):
 else:
     def decode_slice(slc):
         return (slc.start, slc.stop, slc.step)
-    
-    
+
+
 def flatten_iterator(x):
     """Given an iterator of which further sub-elements may also be
     iterators, flatten the sub-elements into a single iterator.
@@ -541,16 +541,16 @@ def assert_arg_type(arg, argtype, name):
 _creation_order = 1
 def set_creation_order(instance):
     """assign a '_creation_order' sequence to the given instance.
-    
+
     This allows multiple instances to be sorted in order of
     creation (typically within a single thread; the counter is
     not particularly threadsafe).
-    
+
     """
     global _creation_order
     instance._creation_order = _creation_order
     _creation_order +=1
-    
+
 def warn_exception(func, *args, **kwargs):
     """executes the given function, catches all exceptions and converts to a warning."""
     try:
@@ -706,10 +706,10 @@ class OrderedDict(dict):
     def clear(self):
         self._list = []
         dict.clear(self)
-    
+
     def sort(self, fn=None):
         self._list.sort(fn)
-        
+
     def update(self, ____sequence=None, **kwargs):
         if ____sequence is not None:
             if hasattr(____sequence, 'keys'):

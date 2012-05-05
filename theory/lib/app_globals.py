@@ -30,7 +30,7 @@ class Globals(object):
         try:
             m = self.p.connect()
             all_tracks = m.listallinfo()
-            
+
             for t in all_tracks:
                 if not 'genre' in t:
                     continue
@@ -42,7 +42,7 @@ class Globals(object):
 
                 for genre in track_genres:
                     self.genres.add(genre)
-            
+
             m.disconnect()
         except:
             pass

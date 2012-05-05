@@ -44,7 +44,7 @@ class MainController(BaseController):
 
         c.debug = request.GET.get('debug', 0)
         c.config = ''
-        
+
         try:
             self.m = g.p.connect()
         except (ProtocolError, ConnectionClosed, NoMPDConnection):
@@ -105,13 +105,13 @@ class MainController(BaseController):
         c.album_safe = h.html.url_escape(c.album, 'utf-8')
 
         return render('/tracks.html')
- 
+
     def fetchart(self):
-        """ 
-        creates an AlbumArt object and attemps to load the image from disk.
-        if it doesn't exist, attempt to fetch it from Amazon and save to disk 
         """
-            
+        creates an AlbumArt object and attemps to load the image from disk.
+        if it doesn't exist, attempt to fetch it from Amazon and save to disk
+        """
+
         artist = request.GET.get('artist', '').encode('utf-8')
         album = request.GET.get('album', '').encode('utf-8')
         response.headers['Content-type'] = 'image/jpeg'
@@ -129,7 +129,7 @@ class MainController(BaseController):
         data = f.read()
         f.close()
         return data
-    
+
     def config(self, use_htmlfill=True):
         """ controller for the configuration iframe """
 
@@ -169,7 +169,7 @@ class MainController(BaseController):
             return render("/config.html")
 
     def saveconfig(self):
-        """ controller to save the web-based configuration """ 
+        """ controller to save the web-based configuration """
         try:
             fields = validate_custom(form.ConfigForm(), variable_decode=True)
         except formencode.api.Invalid, e:
@@ -195,6 +195,7 @@ class MainController(BaseController):
 
         g.p.recreate()
         self.m = g.p.connect()
+
         outputs = self.m.outputs()
 
         if fields['firsttime'] == 0:
@@ -204,7 +205,7 @@ class MainController(BaseController):
                     self.m.enableoutput(o['outputid'])
                 else:
                     self.m.disableoutput(o['outputid'])
-        
+
         return '<script language="javascript">window.parent.setSearchType(\'%s\');window.parent.hideConfig(%s,%s);document.location.replace(\'/null.html\')</script>'\
                 % (g.tc.default_search, reloadframes, reloadpage)
 
@@ -230,7 +231,7 @@ class MainController(BaseController):
     def randomizer(self):
         action = request.GET.get('action', '')
         c.incex = request.GET.get('incex', 'exclude')
-        c.selected_genres = request.GET.getall('genres') 
+        c.selected_genres = request.GET.getall('genres')
         c.exclude_live = request.GET.get('excludelive', not bool(len(action)))
         c.quantity = int(request.GET.get('quantity', 50))
         c.genres = sorted(g.genres)
@@ -303,12 +304,12 @@ class MainController(BaseController):
 
                 if index > -1:
                     del g.tc.streams[index]
-                
+
             g.tc.streams.append([fields['name'], fields['url']])
             g.tc.commit_config()
         except:
             redirect(url('/streams?error=1&type=save'))
-        
+
         redirect(url('/streams'))
 
     def _find_stream_index(self, streams, name):
@@ -331,7 +332,7 @@ class MainController(BaseController):
                     redirect(url('/streams?error=1&type=save'))
 
         redirect(url('/streams'))
- 
+
     def filesystem(self):
         self.m = g.p.connect()
         c.path = request.GET.get('path', '/').encode('utf-8')

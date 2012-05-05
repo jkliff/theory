@@ -107,7 +107,7 @@ class MPDPool:
                 d = mpdc.connect()
                 return self.got_conn(d, id, overflow=True)
 
-        raise MaxConnections                
+        raise MaxConnections
 
     def __getattr__(self, attr):
         return getattr(self.mpdc, attr)
@@ -117,10 +117,10 @@ class MPDPool:
         if not overflow:
             self.connections[id] = obj
             self.in_use[id] = True
-        else:            
+        else:
             self.overflow_connections[id] = obj
             self.overflow_in_use[id] = True
-       
+
         obj.add_callback(self.disconnect, id, overflow)
 
         print self.in_use

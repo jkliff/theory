@@ -34,12 +34,12 @@ class MpdcontrolController(BaseController):
 
     @jsonify
     def status(self):
-        """ 
+        """
         this is the status data that the main indexes calls on an interval.
         uses the pylons @jsonify decorator to turn the output into something
         that can be parsed by JQuery's getJSON() function
         """
-            
+
         self.m = g.p.connect()
         current = self.m.currentsong()
         status = self.m.status()
@@ -49,8 +49,8 @@ class MpdcontrolController(BaseController):
 
     @jsonify
     def fs_status(self):
-        """ 
-        similar to status() but includes a forward-looking playlist 
+        """
+        similar to status() but includes a forward-looking playlist
         for the fullscreen widget
         """
 
@@ -74,7 +74,7 @@ class MpdcontrolController(BaseController):
             if 'id' in current:
                 if pl['id'] == current['id']:
                     found_current = True
-           
+
             track += 1
 
         #m.close()
@@ -103,11 +103,11 @@ class MpdcontrolController(BaseController):
     def stop(self):
         self.m = g.p.connect()
         self.m.stop()
-    
+
     def previous(self):
         self.m = g.p.connect()
         self.m.previous()
-    
+
     def next(self):
         self.m = g.p.connect()
         self.m.next()
@@ -134,7 +134,7 @@ class MpdcontrolController(BaseController):
             parts = t.split(':')
             if iter != parts[1]:
                 self.m.moveid(parts[0],iter)
-                
+
             iter += 1
 
     def addtoplaylist(self):
@@ -166,7 +166,7 @@ class MpdcontrolController(BaseController):
 
         for album in albums:
             tracklist.extend(self.m.tracks(artist,album))
-        
+
         self.m.command_list_ok_begin()
 
         for t in tracklist:
@@ -187,13 +187,13 @@ class MpdcontrolController(BaseController):
         for f in lsinfo:
             if 'file' in f:
                 tracklist.append(f)
-        
+
         self.m.command_list_ok_begin()
 
         for t in tracklist:
             self.m.add(t['file'])
 
-        self.m.command_list_end()  
+        self.m.command_list_end()
 
     def removetrack(self,id):
         if not self.m:
@@ -244,11 +244,11 @@ class MpdcontrolController(BaseController):
     def clearplaylist(self):
         self.m = g.p.connect()
         self.m.clear()
-        
+
     def shuffle(self):
         self.m = g.p.connect()
         self.m.shuffle()
-        
+
     def trimplaylist(self):
         """ trims the playlist of everything leading up to the currently playing track """
         self.m = g.p.connect()

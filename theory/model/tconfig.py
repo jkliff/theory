@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import ConfigParser 
+import ConfigParser
 import pickle
 from pylons import config
 from pylons import app_globals as g
@@ -51,7 +51,7 @@ class TConfig:
             self.aws_secret = conf.get('services','aws_secret')
             self.webpassword = conf.get('main','webpassword')
             self.timeout = conf.getboolean('main','timeout')
-            self.default_search = conf.get('main','default_search') 
+            self.default_search = conf.get('main','default_search')
             conf_stream = conf.get('ext','streams')
         except (ConfigParser.NoSectionError,ConfigParser.NoOptionError):
             pass
@@ -87,7 +87,7 @@ class TConfig:
             conf.write(conffile)
         except IOError,e:
             raise ConfigFileErro
-                
+
 
     def get_stream_name(self,url):
         """ search the list of streams for a particular name """

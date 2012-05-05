@@ -67,7 +67,7 @@ def deunicodify(val):
 
 
 class mpdhelper(object):
-    """ 
+    """
     most python-mpd functions are handed off to python-mpd.  this class overwrites some of them
     to add required processing features (e.g. sorting) and also provides some convenience functions
     for common tasks
@@ -75,7 +75,7 @@ class mpdhelper(object):
 
     mpdc = None
 
-    def __init__(self, g): 
+    def __init__(self, g):
         self.mpdc = None
         self.g = g
         self.callbacks = []
@@ -94,7 +94,7 @@ class mpdhelper(object):
             self.mpdc.password(self.g.tc.password)
             log.debug('using password')
 
-        return self                
+        return self
 
     def disconnect(self):
         log.debug('disconnect, calling callbacks on %s' % self)
@@ -182,10 +182,10 @@ class mpdhelper(object):
                             continue
 
                     track_genres = track.get('genre',None)
-                    if track_genres: 
+                    if track_genres:
                         if type(track_genres) != list:
                             track_genres = [track_genres]
-                       
+
                         if self._comparegenres(track_genres,selected_genres):
                             if incex == 'exclude':
                                 continue
@@ -205,7 +205,7 @@ class mpdhelper(object):
                 break
 
             selected_tracks.append(track)
-               
+
         log.debug("randomizer: skipped live: %d / skipped genre: %d / skipped not file: %d" % (skipped_live,skipped_genre,skipped_not_file))
         log.debug("randomizer: sel: %d/%d left: %d" % (len(selected_tracks),quantity,len(all_tracks)))
         return selected_tracks
@@ -248,7 +248,7 @@ class mpdhelper(object):
             return cmp(x['title'].lower(),y['title'].lower())
         else:
             return cmp(x['file'],y['file'])
-            
+
     @wrap_error
     def __getattr__(self,attr):
         log.debug('getattr: %s' % attr)
@@ -278,7 +278,7 @@ class mpdhelper(object):
                 log.debug('attempting reconnect')
                 self = __init__(g)
                 self.connect()
-                
+
 
         else:
             raise NoMPDConnection('Could not connect to the MPD server')
