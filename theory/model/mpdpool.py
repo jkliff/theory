@@ -127,6 +127,9 @@ class MPDPool:
 
     def disconnect(self, id, overflow):
         log.debug('disconnect')
+        if not self.in_use.contains (id):
+            log.warn ('no connection with id=%s in use!' % id)
+            return
         del self.in_use[id]
         log.debug('connections: %s, in_use: %s' % (self.connections, self.in_use))
 
