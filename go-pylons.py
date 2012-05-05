@@ -1142,6 +1142,24 @@ def after_install(options, home_dir):
     subprocess.call([join(bin_dir, 'easy_install'),
         '-f', 'http://pylonshq.com/download/1.0', 'Pylons==1.0'])
 
+    # FIXME: pylons 1.0 requires WebOb>=0.9.6.1; as of 2012 webob comes in version 1.2b3
+    # which is incompatible with pylons. The workaround it this terrible hack:
+    # rewrite pylons' egg requirements definition to specify version 1.0.8 (last known to work)
+    # and then reinstall pylons (this should just install webob 1.0.8)
+    c = None
+    with (open ('env/lib/python2.6/site-packages/Pylons-1.0-py2.6.egg/EGG-INFO/requires.txt', 'r')) as f:
+        c = f.readlines()
+    for i in range(len (c)):
+        if c[i] == "WebOb>=0.9.6.1\n":
+            print 'Overriding WebOb dependency version'
+            c[i] = "WebOb==1.0.8\n"
+    with (open ('env/lib/python2.6/site-packages/Pylons-1.0-py2.6.egg/EGG-INFO/requires.txt', 'w')) as f:
+        f.writelines (c)
+
+    subprocess.call([join(bin_dir, 'easy_install'),
+        '-f', 'http://pylonshq.com/download/1.0', 'Pylons==1.0'])
+
+
 
 ##file site.py
 SITE_PY = """
