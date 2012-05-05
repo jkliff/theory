@@ -50,6 +50,7 @@ class MainController(BaseController):
         except (ProtocolError, ConnectionClosed, NoMPDConnection):
             if g.tc.server is None:
                 g.tc = TConfig()
+                print g.tc
                 if g.tc.server is None:
                     c.config = '/config?firsttime=1'
             else:
@@ -132,14 +133,13 @@ class MainController(BaseController):
     def config(self, use_htmlfill=True):
         """ controller for the configuration iframe """
 
-        c.firsttime = request.GET.get('firsttime', '0')
-        c.noconnection = request.GET.get('noconnection')
-        c.error = request.GET.get('error')
-        c.type = request.GET.get('type')
+        c.firsttime = request.POST.get('firsttime', '0')
+        c.noconnection = request.POST.get('noconnection')
+        c.error = request.POST.get('error')
+        c.type = request.POST.get('type')
 
         configured_outputs = []
-
-        if c.firsttime == '0':
+        if c.firsttime != '0':
             try:
                 self.m = g.p.connect()
                 c.outputs = self.m.outputs()
@@ -173,8 +173,7 @@ class MainController(BaseController):
         try:
             fields = validate_custom(form.ConfigForm(), variable_decode=True)
         except formencode.api.Invalid, e:
-            return form.htmlfill(self.config(use_htmlfill=False),  e)
-
+            return form.htmlfill(self.config(use_htmlfill=True),  e)
 
         if fields['action'] == 'save config':
             reloadframes = 'true'
